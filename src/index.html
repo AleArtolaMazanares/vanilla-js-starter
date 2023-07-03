@@ -1,15 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div>
+      <hr />
 
-<head>
-	<title>Ejemplo básico</title>
-	<meta charset="UTF-8" />
-</head>
+      <div class="primer-titulo">
+        <h2>Tareas por hacer</h2>
+      </div>
+      <form action="#">
+        <input type="text" placeholder="ingresar tareas" id="input" />
+        <br />
 
-<body>
-	<h1>La aplicación esta corriendo!</h1>
+        <button id="btn-agregar">Agregar</button>
+        <div class="container">
+          <p id="tareas">tareas completadas</p>
+          <div class="contador">0</div>
+        </div>
+      </form>
+      <br />
+      <div class="container1">
+        <div class="parrafo"><h1>No tienes tareas</h1></div>
+        <ul></ul>
+      </div>
+    </div>
 
-	<script src="./index.js" type="module"></script>
-</body>
-
+    <script type="module" src="./index.js"></script>
+  </body>
 </html>
