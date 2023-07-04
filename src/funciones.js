@@ -5,18 +5,22 @@ let ul = document.querySelector("ul");
 let parrafo = document.querySelector(".parrafo");
 let contador = document.querySelector(".contador");
 
+////////////////////////////// VARIABLES //////////////////////////////////
+
 ////////////////////////////// EXPORTACIONES //////////////////////////////////
+import { delete1 } from "./api.js";
 
 export {
   validar,
   ValidarDatos,
   esMayuscula,
-  btn,
-  input,
-  ul,
-  parrafo,
   checkBox,
   BtnEliminar,
+  input,
+  btn,
+  ul,
+  parrafo,
+  contador,
 };
 ////////////////////////////// EXPORTACIONES //////////////////////////////////
 
@@ -36,8 +40,6 @@ function validar() {
 function ValidarDatos(datos) {
   let li = ul.getElementsByTagName("li");
 
-  let caracter = datos.charAt(0);
-  console.log(caracter);
   for (let e = 0; e < li.length; e++) {
     if (li[e].innerText === datos) {
       return false;
@@ -73,12 +75,15 @@ function BtnEliminar() {
   Eliminar.addEventListener("click", (e) => {
     let item = e.target.parentElement;
     let checkBox = item.querySelector("input");
+
     if (checkBox.checked) {
       let cuenta = Number(contador.textContent);
       cuenta = cuenta - 1;
       contador.textContent = cuenta;
     }
     ul.removeChild(item);
+
+    delete1(item.id);
 
     let items = ul.getElementsByTagName("li");
     if (items.length == 0) {

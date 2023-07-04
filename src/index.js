@@ -1,37 +1,47 @@
 ////////////////////////////////// IMPORTACIONES //////////////////////////////
+
 import {
   validar,
   ValidarDatos,
   esMayuscula,
-  btn,
+  checkBox,
   input,
+  btn,
   ul,
   parrafo,
-  checkBox,
   BtnEliminar,
-} from "./prueba.js";
+} from "./funciones.js";
+
+import { post } from "./api.js";
 
 ////////////////////////////////// IMPORTACIONES //////////////////////////////
 
 ////////////////////////////////// VALIDAR CAMPO //////////////////////////////
-btn.addEventListener("click", validar, input);
+btn.addEventListener("click", validar);
 ////////////////////////////////// VALIDAR CAMPO //////////////////////////////
 
 //////////////////////////////////  UNIR TODO //////////////////////////////
 
-btn.addEventListener("click", (e) => {
+btn.addEventListener("click", async (e) => {
   e.preventDefault;
   let texto = input.value;
   if (esMayuscula(texto)) {
     if (ValidarDatos(texto)) {
       if (texto !== "") {
+        input.value = "";
+
+        let task = { task: texto };
+        console.log(task);
+        let resultadoPost = await post(task);
+
+        //funcion();  resultadoPost.id, resultadoPostTask
+
+        //parametros id, texto,
         let li = document.createElement("li");
         li.className = "li";
         let p = document.createElement("p");
-
+        li.id = resultadoPost.id;
         p.textContent = texto;
-
-        input.value = "";
 
         ul.appendChild(li);
         li.appendChild(checkBox());
@@ -48,4 +58,5 @@ btn.addEventListener("click", (e) => {
     alert("La tarea que ingresaste esta repetida");
   }
 });
+
 //////////////////////////////////  UNIR TODO //////////////////////////////
