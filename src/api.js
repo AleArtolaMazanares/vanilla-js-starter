@@ -1,34 +1,35 @@
 ////////////////////////////////// API /////////////////////////////////////
-export { post, get, delete1 };
+export { posTask, getTasks, deleteTask };
 
-async function post(task) {
+async function posTask(task) {
   const response = await fetch("http://localhost:3000/api/task", {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-
     body: JSON.stringify(task),
   });
+  const post = await response.json();
+  return post;
+}
+async function getTasks() {
+  const response = await fetch("http://localhost:3000/api/task", {
+    method: "GET",
+  });
 
-  const postedTask = await response.json();
-  return postedTask;
+  const getPost = await response.json();
+  return getPost;
 }
 
-async function get() {
-  const response = await fetch("http://localhost:3000/api/task");
-  const tasks = await response.json();
-  return tasks;
-}
-
-async function delete1(id) {
+async function deleteTask(id) {
   const response = await fetch("http://localhost:3000/api/task/" + id, {
     method: "DELETE",
   });
-  const tasks = await response.json();
-  return tasks;
+  const deleteTask = await response.json();
+  return deleteTask;
 }
+
 ////////////////////////////////// API /////////////////////////////////////
 
 // ejecutar una funcion cuando cargue la pagina (onload) investigar

@@ -8,20 +8,9 @@ let contador = document.querySelector(".contador");
 ////////////////////////////// VARIABLES //////////////////////////////////
 
 ////////////////////////////// EXPORTACIONES //////////////////////////////////
-import { delete1 } from "./api.js";
 
-export {
-  validar,
-  ValidarDatos,
-  esMayuscula,
-  checkBox,
-  BtnEliminar,
-  input,
-  btn,
-  ul,
-  parrafo,
-  contador,
-};
+import { posTask, getTasks, deleteTask } from "./api.js";
+
 ////////////////////////////// EXPORTACIONES //////////////////////////////////
 
 /////////////////////////////////// FUNCIONES /////////////////////////////////
@@ -83,7 +72,7 @@ function BtnEliminar() {
     }
     ul.removeChild(item);
 
-    delete1(item.id);
+    deleteTask(item.id);
 
     let items = ul.getElementsByTagName("li");
     if (items.length == 0) {
@@ -99,7 +88,6 @@ function BtnEliminar() {
 function checkBox() {
   let btnCheck = document.createElement("input");
   btnCheck.setAttribute("type", "checkbox");
-
   btnCheck.className = "btnCheckBox";
 
   btnCheck.addEventListener("click", function () {
@@ -119,4 +107,70 @@ function checkBox() {
 }
 ////////////////////////////////// FUNCION CHECKBOX /////////////////////////////
 
+async function creacion(e) {
+  e.preventDefault;
+  let texto = input.value;
+
+  if (esMayuscula(texto)) {
+    if (ValidarDatos(texto)) {
+      if (texto !== "") {
+        input.value = "";
+
+        let task = { task: texto }; // agregar false
+
+        let resultadoPost = await posTask(task);
+
+        console.log(resultadoPost);
+
+        crearTarea(resultadoPost.id, resultadoPost.task);
+
+        parrafo.style.display = "none";
+      }
+    } else {
+      alert("La tarea que ingresaste esta repetida");
+    }
+    input.value = "";
+  } else {
+    alert("La tarea que ingresaste esta repetida");
+  }
+}
+
+function crearTarea(id, texto) {
+  //agregar uno mas
+  let li = document.createElement("li");
+  li.className = "li";
+  let p = document.createElement("p");
+  li.id = id;
+  p.textContent = texto;
+
+  ul.appendChild(li);
+  li.appendChild(checkBox()); 
+  li.appendChild(p);
+  li.appendChild(BtnEliminar());
+}
+
+async function cargarTareas() {
+  let tareas = await getTasks();
+  tareas.forEach((tarea) => {
+    crearTarea(tarea.id, tarea.task);
+  });
+}
+
 /////////////////////////////////// FUNCIONES /////////////////////////////////
+
+export {
+  validar,
+  ValidarDatos,
+  esMayuscula,
+  checkBox,
+  BtnEliminar,
+  input,
+  btn,
+  ul,
+  parrafo,
+  contador,
+  creacion,
+  cargarTareas,
+};
+
+//
