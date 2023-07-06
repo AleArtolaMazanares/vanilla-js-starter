@@ -21,7 +21,12 @@
         <h2>Tareas por hacer</h2>
       </div>
       <form action="#">
-        <input type="text" placeholder="ingresar tareas" id="input" />
+        <input
+          type="text"
+          placeholder="ingresar tareas"
+          id="input"
+          autocomplete="off"
+        />
         <br />
 
         <button id="btn-agregar">Agregar</button>
@@ -39,5 +44,6 @@
     </div>
 
     <script type="module" src="./index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>
