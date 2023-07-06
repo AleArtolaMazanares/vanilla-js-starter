@@ -1,4 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Tilt+Prism&display=swap");
+.btn-success {
+  background: rgb(46, 190, 46);
+  height: 40px;
+  border-radius: 10px;
+  border: green;
+  color: white;
+  cursor: pointer;
+  margin-left: 20px;
+}
+.btn-danger {
+  background: red;
+  height: 40px;
+  border-radius: 10px;
+  border: green;
+  color: white;
+  cursor: pointer;
+}
 hr {
   background: gray;
   height: 50px;

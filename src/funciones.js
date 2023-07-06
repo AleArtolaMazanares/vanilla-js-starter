@@ -75,8 +75,8 @@ function BtnEliminar() {
     });
     swalWithBootstrapButtons
       .fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "¿Deseas eliminar esta tarea?",
+        text: "se eliminara esta tarea de tu lista",
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Yes, delete it!",
@@ -86,8 +86,8 @@ function BtnEliminar() {
       .then((result) => {
         if (result.isConfirmed) {
           swalWithBootstrapButtons.fire(
-            "Deleted!",
-            "Your file has been deleted.",
+            "Se elimino con exito",
+            "se elimino de tu lista.",
             "success"
           );
 
@@ -104,15 +104,15 @@ function BtnEliminar() {
           result.dismiss === Swal.DismissReason.cancel
         ) {
           swalWithBootstrapButtons.fire(
-            "Cancelled",
-            "Your imaginary file is safe :)",
+            "se cancelo con exito",
+            "no se elemino de tu lista",
             "error"
           );
         }
         let items = ul.getElementsByTagName("li");
         if (items.length == 0) {
           parrafo.style.display = "block";
-        }   
+        }
       });
   });
 
