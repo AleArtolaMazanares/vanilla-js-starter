@@ -1,9 +1,8 @@
 ////////////////////////////// VARIABLES //////////////////////////////////
-let input = document.querySelector("#input");
-let btn = document.querySelector("#btn-agregar");
-let ul = document.querySelector("ul");
-let parrafo = document.querySelector(".parrafo");
-let contador = document.querySelector(".contador");
+const input = document.querySelector("#input");
+const ul = document.querySelector("ul");
+const parrafo = document.querySelector(".parrafo");
+const contador = document.querySelector(".contador");
 
 ////////////////////////////// VARIABLES //////////////////////////////////
 
@@ -30,6 +29,7 @@ function validar() {
 ///////////////////////// FUNCIONE PARA VALIDAR DATOS /////////////////////////////////
 function ValidarDatos(datos) {
   let li = ul.getElementsByTagName("li");
+  console.log(li);
 
   for (let e = 0; e < li.length; e++) {
     if (li[e].innerText === datos) {
@@ -44,10 +44,10 @@ function ValidarDatos(datos) {
 ///////////////////////// FUNCIONE INDENTIFICAR SI ES MAYUSCULA /////////////////////////////////
 function esMayuscula() {
   let datos = input.value;
-  let elementos = ul.getElementsByTagName("li");
+  const li = ul.getElementsByTagName("li");
 
-  for (let e = 0; e < elementos.length; e++) {
-    if (elementos[e].textContent.toUpperCase() == datos.toUpperCase()) {
+  for (let e = 0; e < li.length; e++) {
+    if (li[e].textContent.toUpperCase() == datos.toUpperCase()) {
       return false;
     }
   }
@@ -58,110 +58,103 @@ function esMayuscula() {
 
 ////////////////////////////////// FUNCION BTN ELIMINAR /////////////////////////////
 
-function BtnEliminar() {
-  var Eliminar = document.createElement("i");
-  var checkBox = document.querySelector("input");
+function createBtnDelete() {
+  let Eliminar = document.createElement("i");
 
   Eliminar.className = "fa fa-trash";
 
-  Eliminar.addEventListener("click", (e) => {
-    let item = e.target.parentElement;
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: "btn btn-success",
-        cancelButton: "btn btn-danger",
-      },
-      buttonsStyling: false,
-    });
-    swalWithBootstrapButtons
-      .fire({
-        title: "¿Deseas eliminar esta tarea?",
-        text: "se eliminara esta tarea de tu lista",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          swalWithBootstrapButtons.fire(
-            "Se elimino con exito",
-            "se elimino de tu lista.",
-            "success"
-          );
-
-          if (checkBox.checked) {
-            let cuenta = Number(contador.textContent);
-            cuenta = cuenta - 1;
-            contador.textContent = cuenta;
-          }
-          ul.removeChild(item);
-
-          deleteTask(item.id);
-        } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          swalWithBootstrapButtons.fire(
-            "se cancelo con exito",
-            "no se elemino de tu lista",
-            "error"
-          );
-        }
-        let items = ul.getElementsByTagName("li");
-        if (items.length == 0) {
-          parrafo.style.display = "block";
-        }
-      });
-  });
+  Eliminar.addEventListener("click", handleDelete);
 
   return Eliminar;
 }
+
+function handleDelete(e) {
+  let item = e.target.parentElement;
+
+  let checkBox = item.querySelector("input");
+
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
+    },
+    buttonsStyling: false,
+  });
+  swalWithBootstrapButtons
+    .fire({
+      title: "¿Deseas eliminar esta tarea?",
+      text: "se eliminara esta tarea de tu lista",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "si deseo eliminar",
+      cancelButtonText: "no deseo eliminar",
+      reverseButtons: true,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        swalWithBootstrapButtons.fire(
+          "Se elimino con exito",
+          "se elimino de tu lista.",
+          "success"
+        );
+
+        if (checkBox.checked) {
+          let cuenta = Number(contador.textContent);
+          cuenta = cuenta - 1;
+          contador.textContent = cuenta;
+        }
+        ul.removeChild(item);
+
+        deleteTask(item.id);
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          "se cancelo con exito",
+          "no se elemino de tu lista",
+          "error"
+        );
+      }
+      let items = ul.getElementsByTagName("li");
+      if (items.length == 0) {
+        parrafo.style.display = "block";
+      }
+    });
+}
+
 ////////////////////////////////// FUNCION BTN ELIMINAR /////////////////////////////
 
 ////////////////////////////////// FUNCION CHECKBOX /////////////////////////////
-function checkBox(id, isCheck) {
+
+function createCheckBox(id, isCheck) {
   let btnCheck = document.createElement("input");
   btnCheck.setAttribute("type", "checkbox");
   btnCheck.className = "btnCheckBox";
 
   btnCheck.checked = isCheck;
 
-  btnCheck.addEventListener("click", function () {
-    let check = {
-      check: btnCheck.checked,
-    };
-
-    updateTask(id, check);
-
-    if (btnCheck.checked) {
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "tarea enviada con exito",
-        showConfirmButton: false,
-        timer: 1000,
-      });
-      let cuenta = Number(contador.textContent);
-      cuenta = cuenta + 1;
-      contador.textContent = cuenta;
-    } else if (contador.textContent > 0) {
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "tarea quitada con exito",
-        showConfirmButton: false,
-        timer: 1000,
-      });
-      let cuenta = Number(contador.textContent);
-      cuenta = cuenta - 1;
-      contador.textContent = cuenta;
-    } else if (btnCheck.checked) {
-    }
-  });
+  btnCheck.addEventListener("click", () => handleCheck(id, btnCheck));
 
   return btnCheck;
+}
+
+function handleCheck(id, btnCheck) {
+  let check = {
+    check: btnCheck.checked,
+  };
+
+  updateTask(id, check);
+
+  if (btnCheck.checked) {
+    let cuenta = Number(contador.textContent);
+    cuenta = cuenta + 1;
+    contador.textContent = cuenta;
+  } else if (contador.textContent > 0) {
+    let cuenta = Number(contador.textContent);
+    cuenta = cuenta - 1;
+    contador.textContent = cuenta;
+  }
 }
 ////////////////////////////////// FUNCION CHECKBOX /////////////////////////////
 
@@ -171,7 +164,7 @@ async function creacion(e) {
 
   if (esMayuscula(texto)) {
     if (ValidarDatos(texto)) {
-      if (texto !== "") {
+      if (texto !== "" && texto.trim()) {
         input.value = "";
 
         let task = {
@@ -182,6 +175,16 @@ async function creacion(e) {
         let resultadoPost = await posTask(task);
 
         crearTarea(resultadoPost.id, resultadoPost.task);
+      } else {
+        Swal.fire({
+          title: "Campo vacio",
+          text: "campo vacio ingrese algo no se pase de tonto",
+          imageUrl:
+            "https://cdn-jagbh.nitrocdn.com/TYVZHePxisufUuSiVWDElscksnaOxEbE/assets/images/optimized/rev-3e675ee/media/yr7n0u3qzO9nG/giphy.gif",
+          imageWidth: 400,
+          imageHeight: 200,
+          imageAlt: "Custom image",
+        });
       }
     } else {
       Swal.fire("Good job!", "You clicked the button!", "success");
@@ -189,29 +192,33 @@ async function creacion(e) {
     input.value = "";
   } else {
     Swal.fire({
-      icon: "error",
-      title: "OMIGAAA",
-      text: "Hay una tarea repetida chupe mango",
+      title: "tarea repetida",
+      text: "ingrese una tarea no repetida",
+      imageUrl: "https://i.makeagif.com/media/8-08-2016/L0-FsN.gif",
+      imageWidth: 400,
+      imageHeight: 200,
+      imageAlt: "Custom image",
     });
+    input.value = "";
   }
 }
 
 function crearTarea(id, texto, isCheck) {
-  let li = document.createElement("li");
+  const li = document.createElement("li");
   li.className = "li";
-  let p = document.createElement("p");
+  const p = document.createElement("p");
   li.id = id;
   p.textContent = texto;
 
   ul.appendChild(li);
-  li.appendChild(checkBox(id, isCheck));
+  li.appendChild(createCheckBox(id, isCheck));
   li.appendChild(p);
-  li.appendChild(BtnEliminar());
+  li.appendChild(createBtnDelete());
   parrafo.style.display = "none";
 }
 
 async function cargarTareas() {
-  let tareas = await getTasks();
+  const tareas = await getTasks();
   let contadorCarga = 0;
   tareas.forEach((tarea) => {
     crearTarea(tarea.id, tarea.task, tarea.check);
@@ -227,19 +234,4 @@ async function cargarTareas() {
 
 /////////////////////////////////// FUNCIONES /////////////////////////////////
 
-export {
-  validar,
-  ValidarDatos,
-  esMayuscula,
-  checkBox,
-  BtnEliminar,
-  input,
-  btn,
-  ul,
-  parrafo,
-  contador,
-  creacion,
-  cargarTareas,
-};
-
-//
+export { validar, creacion, cargarTareas };

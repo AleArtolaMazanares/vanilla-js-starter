@@ -1,6 +1,8 @@
 ////////////////////////////////// IMPORTACIONES //////////////////////////////
 
-import { validar, btn, creacion, cargarTareas } from "./funciones.js";
+import { validar, creacion, cargarTareas } from "./funciones.js";
+
+const btn = document.querySelector("#btn-agregar");
 
 ////////////////////////////////// IMPORTACIONES //////////////////////////////
 

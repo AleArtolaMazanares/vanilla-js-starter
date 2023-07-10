@@ -43,8 +43,3 @@ async function updateTask(id, task) {
 }
 
 ////////////////////////////////// API /////////////////////////////////////
-
-// ejecutar una funcion cuando cargue la pagina (onload) investigar
-//obtener la lista de los datos del servidor
-//como crear una tarea sin obtener el texto del input respuesta tirarse por la ventana
-//como crear una tarea de cada elemento de la lista
